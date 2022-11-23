@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - run: ls
+      - run: |
+          cd terraform
+          terraform init
 
         #run: terraform apply -var="cluster_name=${{ inputs.eks-name }}" -auto-approve
