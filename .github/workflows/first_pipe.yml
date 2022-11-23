@@ -2,6 +2,12 @@ name: Terraform
 
 on:
   workflow_dispatch:
+    input:
+      eks-name:
+        description: 'EKS Cluster Name'
+        default: 'Fargate'
+        required: false
+        type: string
 
 jobs:
   build:
