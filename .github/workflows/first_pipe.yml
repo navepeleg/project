@@ -28,7 +28,6 @@ jobs:
       - run: |
           cd terraform
           terraform init
-          terraform validate
           terraform apply -var="eks_name=${{ inputs.eks-name }}" -auto-approve
 
 
