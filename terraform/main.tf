@@ -24,7 +24,7 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
 locals {
-  name   = var.eks_name
+  name   = basename(path.cwd)
   region = "eu-west-1"
 
   vpc_cidr = "10.0.0.0/16"
@@ -40,7 +40,7 @@ locals {
 module "eks_blueprints" {
   source = "github.com/aws-ia/terraform-aws-eks-blueprints"
 
-  cluster_name    = local.name
+  cluster_name    = var.eks_name
   cluster_version = "1.23"
 
   vpc_id             = module.vpc.vpc_id
@@ -74,7 +74,7 @@ module "eks_blueprints" {
       fargate_profile_name = "app-nginx"
       fargate_profile_namespaces = [
         {
-          namespace = "app-nginx"
+          namespace = "app-*"
       }]
       subnet_ids = module.vpc.private_subnets
     }
@@ -120,7 +120,7 @@ module "eks_blueprints_kubernetes_addons" {
   }
 
   # Sample application
-  #enable_app_2048 = true
+  enable_app_2048 = true
 
   # Enable Fargate logging
   enable_fargate_fluentbit = true
