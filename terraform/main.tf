@@ -24,7 +24,7 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
 locals {
-  name   = basename(path.cwd)
+  name   = var.cluster_name
   region = "eu-west-1"
 
   vpc_cidr = "10.0.0.0/16"
@@ -40,7 +40,7 @@ locals {
 module "eks_blueprints" {
   source = "github.com/aws-ia/terraform-aws-eks-blueprints"
 
-  cluster_name    = var.cluster_name
+  cluster_name    = locals.name
   cluster_version = "1.23"
 
   vpc_id             = module.vpc.vpc_id
