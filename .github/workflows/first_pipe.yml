@@ -29,7 +29,7 @@ jobs:
           cd terraform
           terraform init
           terraform validate
-          terraform apply -var="cluster_name=${{ inputs.eks-name }}" -auto-approve
+          terraform apply -var="eks_name=${{ inputs.eks-name }}" -auto-approve
 
 
         
