@@ -13,5 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: run hello world
-        run: echo 'Hello World!'
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - run: ls
+
+        #run: terraform apply -var="cluster_name=${{ inputs.eks-name }}" -auto-approve
