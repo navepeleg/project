@@ -1,4 +1,4 @@
-variable "cluster_name" {
+variable "eks_name" {
   type        = string
   default     = "Fargate"
 }
