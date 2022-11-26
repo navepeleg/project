@@ -2,12 +2,14 @@ name: Terraform
 
 on:
   workflow_dispatch:
-    input:
-      eksname: 'fargate'
 
-jobs:
+env: 
+  eksname: 'fargate'
+jobs: 
   build:
     runs-on: ubuntu-latest
+    env:
+      eksname: 'fargate'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -24,7 +26,8 @@ jobs:
       - run: |
           cd terraform
           terraform init
-          terraform apply -var="eks_name=$eksname" -auto-approve
+          terraform apply -var="eks_name=${{ env.eksname }}" -auto-approve
+          echo "job env: $eksname"
         env:
-          eksname: ${{ inputs.eksname }}
+          eksname: "niv"
 
