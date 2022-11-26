@@ -3,11 +3,7 @@ name: Terraform
 on:
   workflow_dispatch:
     input:
-      eks-name:
-        description: 'EKS Cluster Name'
-        default: 'Fargate'
-        required: false
-        type: string
+      eksname: 'fargate'
 
 jobs:
   build:
@@ -28,7 +24,7 @@ jobs:
       - run: |
           cd terraform
           terraform init
-          terraform apply -var="eks_name=$eks-name" -auto-approve
+          terraform apply -var="eks_name=$eksname" -auto-approve
         env:
-          eks-name: ${{ inputs.eks-name }}
+          eksname: ${{ inputs.eksname }}
 
