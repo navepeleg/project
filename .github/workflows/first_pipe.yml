@@ -32,4 +32,3 @@ jobs:
         env:
           eks-name: ${{ inputs.eks-name }}
 
-        
