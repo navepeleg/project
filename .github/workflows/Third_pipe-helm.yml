@@ -17,5 +17,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1          
 
+
       - name: Connect to Cluster
-        run: aws eks --region eu-west-1 update-kubeconfig --name Fargate
+        run: aws eks --region eu-west-1 update-kubeconfig --name niv
+
+      - name: Install Nginx with Helm
+        run: helm upgrade --install nginx Helm/nginx
+
+          
