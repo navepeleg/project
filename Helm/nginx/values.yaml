@@ -39,7 +39,7 @@ securityContext: {}
 
 service:
   type: LoadBalancer
-  ports:
+  port:
     http: 80
     https: 443
 
