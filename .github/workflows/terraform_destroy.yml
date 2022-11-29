@@ -70,7 +70,9 @@ jobs:
 
     - name: Destroy Nginx
       continue-on-error: true
-      run: helm delete nginx
+      run: |
+        aws eks --region eu-west-1 update-kubeconfig --name Fargate
+        helm delete nginx
 
     - name: Terraform Destroy
       run: |
