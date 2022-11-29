@@ -70,12 +70,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: tf_plan
-          path: ${{ env.working-directory }}
+          path: ./${{ env.working-directory }}
 
       - name: Terraform apply
         run: |
           terraform show "tf_plan"
-          terraform apply -auto-approve -var="eks_name=${{ env.eksname }}"
+          terraform apply tf_plan -auto-approve -var="eks_name=${{ env.eksname }}"
           working-directory: ${{ env.working-directory }}
           
 
