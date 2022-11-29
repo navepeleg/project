@@ -3,7 +3,7 @@ name: Helm
 on:
   workflow_dispatch:
 env:
-  eksname: 'fargate'
+  eksname: 'Fargate'
 
 jobs:
   build:
