@@ -1,0 +1,83 @@
+name: Terraform-Plan
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - 'Helm/**'
+      - '.github/**'
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    env:
+      eksname: 'fargate'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1          
+
+      
+      - name: Run Terraform Init
+        run: terraform init
+
+      
+      - name: Terraform Plan
+        continue-on-error: true
+        run: terraform plan -out "tf_plan" -input=false
+
+      
+      - name: Use TF plan file
+        uses: actions/upload-artifact@v2
+        with:
+          name: tf_plan
+          path: ./tf_plan
+          if-no-files-found: error
+          retntion-days: 1
+
+  apply:
+    name: 'Terraform apply'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [build]
+    env:
+      eksname: 'fargate'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Download TF file
+        uses: actions/download-artifact@v2
+        with:
+          name: tf_plan
+          path: ./
+
+      - name: Terraform apply
+        run: |
+          terraform show "tf_plan"
+          terraform apply -auto-approve -var="eks_name=${{ env.eksname }}" 
+          
+
+
+     
+        #   cd terraform
+        #   terraform init
+        #   terraform apply -var="eks_name=${{ env.eksname }}" -auto-approve
+        #   echo "job env: $eksname"
+        # # env:
+        # #   eksname: "niv"
+

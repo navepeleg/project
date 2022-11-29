@@ -19,7 +19,7 @@ jobs:
 
 
       - name: Connect to Cluster
-        run: aws eks --region eu-west-1 update-kubeconfig --name niv
+        run: aws eks --region eu-west-1 update-kubeconfig --name ${{ env.eksname }}
 
       - name: Install Nginx with Helm
         run: helm upgrade --install nginx Helm/nginx
