@@ -2,6 +2,8 @@ name: Helm
 
 on:
   workflow_dispatch:
+env:
+  eksname: 'fargate'
 
 jobs:
   build:
