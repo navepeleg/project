@@ -68,6 +68,10 @@ jobs:
         name: tf_plan_destroy
         path: ./
 
+    - name: Destroy Nginx
+      continue-on-error: true
+      run: helm destroy nginx
+
     - name: Terraform Destroy
       run: |
         terraform show "tf_plan_destroy"
