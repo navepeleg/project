@@ -75,7 +75,7 @@ jobs:
       - name: Terraform apply
         run: |
           terraform show "tf_plan"
-          terraform apply -auto-approve -var="eks_name=${{ env.eksname }}" tf_plan
+          terraform apply -auto-approve tf_plan
         working-directory: ${{ env.working-directory }}
           
 
@@ -87,4 +87,4 @@ jobs:
         #   echo "job env: $eksname"
         # # env:
         # #   eksname: "niv"
-
+# -var="eks_name=${{ env.eksname }}"
