@@ -8,13 +8,13 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.this.token
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = module.eks_blueprints.eks_cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_blueprints.eks_cluster_certificate_authority_data)
-    token                  = data.aws_eks_cluster_auth.this.token
-  }
-}
+# provider "helm" {
+#   kubernetes {
+#     host                   = module.eks_blueprints.eks_cluster_endpoint
+#     cluster_ca_certificate = base64decode(module.eks_blueprints.eks_cluster_certificate_authority_data)
+#     token                  = data.aws_eks_cluster_auth.this.token
+#   }
+# }
 
 data "aws_eks_cluster_auth" "this" {
   name = module.eks_blueprints.eks_cluster_id
@@ -39,7 +39,7 @@ locals {
 
 
 module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints"
+  source = "https://github.com/aws-ia/terraform-aws-eks-blueprints"
 
   cluster_name    = local.eks_name
   cluster_version = "1.23"
@@ -91,7 +91,7 @@ module "eks_blueprints" {
 }
 
 module "eks_blueprints_kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints/modules/kubernetes-addons"
+  source = "https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/modules/kubernetes-addons"
 
   eks_cluster_id       = module.eks_blueprints.eks_cluster_id
   eks_cluster_endpoint = module.eks_blueprints.eks_cluster_endpoint
