@@ -33,7 +33,7 @@ locals {
 
   tags = {
     Blueprint  = local.name
-    GithubRepo = "./modules"
+    GithubRepo = "../modules"
   }
 }
 
