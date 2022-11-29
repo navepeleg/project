@@ -40,7 +40,7 @@ jobs:
           name: tf_plan
           path: ./tf_plan
           if-no-files-found: error
-          retntion-days: 1
+          retention-days: 1
 
   apply:
     name: 'Terraform apply'
