@@ -1,5 +1,5 @@
 module "eks_blueprints" {
-  source = "./modules"
+  source = "./modules/modules"
 
   cluster_name    = local.eks_name
   cluster_version = "1.24"
