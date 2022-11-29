@@ -70,7 +70,7 @@ jobs:
 
     - name: Destroy Nginx
       continue-on-error: true
-      run: helm destroy nginx
+      run: helm delete nginx
 
     - name: Terraform Destroy
       run: |
