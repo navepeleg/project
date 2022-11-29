@@ -2,6 +2,9 @@ name: 'Terraform Destroy'
 
 on:
   workflow_dispatch
+env:
+    working-directory: terraform
+    eksname: 'Fargate'
 
 jobs:
   terraform_plan:
@@ -23,17 +26,19 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
+      working-directory: ${{ env.working-directory }}
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan Destroy
       continue-on-error: true
       run: terraform plan -destroy -out "tf_plan_destroy" -input=false
+      working-directory: ${{ env.working-directory }}
 
     - name: Upload TF Plan
       uses: actions/upload-artifact@v2
       with:
         name: tf_plan_destroy
-        path: ./tf_plan_destroy
+        path: ${{ env.working-directory }}/tf_plan_destroy
         if-no-files-found: error
         retention-days: 1
 
@@ -61,12 +66,13 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
+      working-directory: ${{ env.working-directory }}
 
     - name: Download TF Plan
       uses: actions/download-artifact@v3
       with:
         name: tf_plan_destroy
-        path: ./
+        path: ./${{ env.working-directory }}
 
     - name: Destroy Nginx
       continue-on-error: true
@@ -77,4 +83,5 @@ jobs:
     - name: Terraform Destroy
       run: |
         terraform show "tf_plan_destroy"
-        terraform apply -input=false tf_plan_destroy 
+        terraform apply -input=false tf_plan_destroy
+      working-directory: ${{ env.working-directory }} 
