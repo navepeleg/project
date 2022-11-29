@@ -33,7 +33,7 @@ jobs:
       
       - name: Terraform Plan
         continue-on-error: true
-        run: terraform plan -out "${{ env.working-directory }}/tf_plan" -input=false
+        run: terraform plan -out "tf_plan" -input=false
         working-directory: ${{ env.working-directory }}
 
       
@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tf_plan
-          path: ./${{ env.working-directory }}/tf_plan
+          path: ${{ env.working-directory }}/tf_plan
           if-no-files-found: error
           retention-days: 1
 
@@ -62,11 +62,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.working-directory }}
+
       - name: Download TF file
         uses: actions/download-artifact@v2
         with:
           name: tf_plan
-          path: ./${{ env.working-directory }}
+          path: ${{ env.working-directory }}
 
       - name: Terraform apply
         run: |
