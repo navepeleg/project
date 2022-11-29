@@ -75,7 +75,7 @@ jobs:
       - name: Terraform apply
         run: |
           terraform show "tf_plan"
-          terraform apply tf_plan -auto-approve -var="eks_name=${{ env.eksname }}"
+          terraform apply -auto-approve -var="eks_name=${{ env.eksname }}" tf_plan
         working-directory: ${{ env.working-directory }}
           
 
